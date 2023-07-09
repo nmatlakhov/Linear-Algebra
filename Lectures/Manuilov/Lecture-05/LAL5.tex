@@ -1,0 +1,405 @@
+\documentclass[12pt]{article}
+\usepackage[left=1cm, right=1cm, top=2cm,bottom=1.5cm]{geometry} 
+
+\usepackage[parfill]{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\usepackage{amsfonts, amsmath, amsthm, amssymb, mathtools}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{hhline}
+
+\usepackage{accents}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\usepackage{graphicx}
+\usepackage[figurename=Рис.]{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+%%Наименование папки откуда забирать изображения
+\graphicspath{ {./images/} }
+
+%%Изменение формата для ввода доказательства
+\renewcommand{\proofname}{$\square$  \nopunct}
+\renewcommand\qedsymbol{$\blacksquare$}
+
+%%Изменение отступа на таблицах
+\addto\captionsrussian{%
+	\renewcommand{\proofname}{$\square$ \nopunct}%
+}
+%% Римские цифры
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+%% Для удобства записи
+\newcommand{\MR}{\mathbb{R}}
+\newcommand{\MQ}{\mathbb{Q}}
+\newcommand{\MC}{\mathbb{C}}
+\newcommand{\MK}{\mathbb{K}}
+\newcommand{\MI}{\mathrm{I}}
+\newcommand{\MJ}{\mathrm{J}}
+\newcommand{\MH}{\mathrm{H}}
+\newcommand{\MT}{\mathrm{T}}
+\newcommand{\MU}{\mathcal{U}}
+\newcommand{\MV}{\mathcal{V}}
+\newcommand{\VN}{\varnothing}
+\newcommand{\VE}{\varepsilon}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Mat}{\text{Mat}}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Опр:}
+\newtheorem{rem}{Rm:}
+\newtheorem{prop}{Утв.}
+\newtheorem{exrc}{Упр.}
+\newtheorem{lemma}{Лемма}
+\newtheorem{theorem}{Теорема}
+\newtheorem{corollary}{Следствие}
+
+\newenvironment{cusdefn}[1]
+{\renewcommand\thedefn{#1}\defn}
+{\enddefn}
+
+\DeclareRobustCommand{\divby}{%
+	\mathrel{\text{\vbox{\baselineskip.65ex\lineskiplimit0pt\hbox{.}\hbox{.}\hbox{.}}}}%
+}
+%Короткий минус
+\DeclareMathSymbol{\SMN}{\mathbin}{AMSa}{"39}
+%Длинная шапка
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+%Функция знака
+\DeclareMathOperator{\sgn}{sgn}
+
+%Операторы ядра и образа
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\tr}{tr}
+
+
+%% Шапка для букв сверху
+\newcommand{\wte}[1]{\widetilde{#1}}
+
+%Обозначение константы
+\DeclareMathOperator{\const}{\text{const}}
+
+%Интеграл в большом формате
+\DeclareMathOperator{\dint}{\displaystyle\int}
+\newcommand{\ddint}[2]{\displaystyle\int\limits_{#1}^{#2}}
+
+
+\newcommand{\smallerrel}[1]{\mathrel{\mathpalette\smallerrelaux{#1}}}
+\newcommand{\smallerrelaux}[2]{\raisebox{.1ex}{\scalebox{.75}{$#1#2$}}}
+
+\newcommand{\smallin}{\smallerrel{\in}}
+\newcommand{\smallnotin}{\smallerrel{\notin}}
+
+\newcommand*{\medcap}{\mathbin{\scalebox{1.25}{\ensuremath{\cap}}}}%
+\newcommand*{\medcup}{\mathbin{\scalebox{1.25}{\ensuremath{\cup}}}}%
+
+%Скалярное произведение
+\DeclarePairedDelimiterX{\inner}[2]{\langle}{\rangle}{#1, #2}
+
+%Подпись символов снизу
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+
+\begin{document}
+\lhead{Линейная алгебра}
+\chead{Мануйлов В.М.}
+\rhead{Лекция - 5}
+
+\section*{Внешняя прямая сумма}
+$V, \, W$ - линейные пространства над полем $\mathbb{K}$.
+\begin{defn}
+	\uwave{Внешней прямой суммой} $V \oplus W$ называется множество пар $(v,w) \colon v \in V, \, w \in W$ с операциями:
+	\begin{itemize}
+		\item[$+$ :] $(v,w) + (v^\prime,w^\prime) = (v + v^\prime, w + w^\prime)$;
+		\item[$\cdot$ :] $\lambda{\cdot}(v,w) = (\lambda v, \lambda w)$, где $\lambda \in \mathbb{K}$;
+	\end{itemize}
+\end{defn}
+
+Размерность внешней прямой суммы равна сумму размерностей: $\dim{(V \oplus W)} = \dim{V} + \dim{W}$.
+
+Пусть $e_1,\dotsc, e_n$ - базис в $V$, $g_1, \dotsc, g_m$ - базис в $W$, тогда $(e_1,0),\dotsc, (e_n,0), (0,g_1),\dotsc, (0,g_m)$ - базис у внешней прямой суммы. Тогда любая пара $(v,w)$ может быть записана следующим образом:
+$$
+	(v,w) = (v,0) + (0,w) = \alpha_1(e_1,0) + \dotsc \alpha_n(e_n,0) + \beta_1(0,g_1) + \dotsc + \beta_m(0,g_m)
+$$
+\section*{Линейные отображения}
+\begin{defn}
+	Пусть $V,W$ - линейные пространства над $\MK$, отображение $f \colon V \to W$ называется \uwave{линейным}, если выполнено следующее:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item $f(a + b) = f(a) + f(b), \, \forall a,b \in V$;
+		\item $f(\lambda{\cdot}a) = \lambda{\cdot}f(a), \, \forall a \in V, \, \forall \lambda \in \MK$;
+	\end{enumerate}
+\end{defn}
+
+\textbf{Примеры}:
+\begin{enumerate}[label ={(\arabic*)}]
+	\item Нулевое отображение $f(a) = 0, \, \forall a \in V$;
+	\item Изоморфизм $\Rightarrow$ линейное отображение;
+	\item Система линейных уравнений $AX = B$;
+\end{enumerate}
+
+Пусть $e_1, \dotsc, e_n$ - базис в $V$, $g_1, \dotsc, g_m$ - базис в $W \Rightarrow \left\{\begin{array}{ccc}
+	f(e_1) & = & a_1^1 g_1 + \dotsc + a_1^m g_m \\
+	\vdots & \vdots & \vdots \\
+	f(e_n) & = & a_n^1 g_1 + \dotsc + a_n^m g_m
+\end{array}\right.$ - разложение по базису векторов $e_1, \dotsc, e_n \Rightarrow$ при фиксированных базисах линейное отображение задает некоторую матрицу коэффициентов.
+
+\begin{defn}
+	Матрица $A = A_f = 
+	\begin{pmatrix}
+		a_1^1 & \dotsc & a_n^1 \\
+		\vdots & \ddots & \vdots \\
+		a_1^m & \dotsc & a_n^m 
+	\end{pmatrix}$ называется \uwave{матрицей линейного отображения} $f$ в базисах $e_1, \dotsc, e_n$ и $g_1, \dotsc, g_m$.
+\end{defn}
+Рассмотрим функцию $f(x) = f(x^1 e_1 + \dotsc + x^n e_n)$:
+$$
+	 f(x) = x^1f(e_1) + \dotsc + x^n f(e_n) = x^1(a_1^1 g_1 + \dotsc + a_1^m g_m) + \dotsc + x^n(a_n^1 g_1 + \dotsc + a_n^m g_m) = 
+$$
+$$
+	= (a_1^1 x^1 + \dotsc + a_n^1 x^n) g_1 + \dotsc + (a_1^m x^1 + \dotsc + a_n^m x^n)g_m = y \Rightarrow y = Ax
+$$
+где $(a_1^i x^1 + \dotsc + a_n^i x^n), \, i = \overline{1,m}$ - координаты $y$. Перепишем это же выражение в матричном виде:
+$$
+	\begin{pmatrix}
+		y^1 \\
+		\vdots \\
+		y^m
+	\end{pmatrix} = 
+	\begin{pmatrix}
+		a_1^1 & \dotsc & a_n^1 \\
+		\vdots & \ddots & \vdots \\
+		a_1^m & \dotsc & a_n^m 
+	\end{pmatrix}{\cdot}
+	\begin{pmatrix}
+		x^1 \\
+		\vdots \\ 
+		x^n
+	\end{pmatrix} \Leftrightarrow y = Ax = f(x), \, y^i = a_j^ix^j = \displaystyle \sum\limits_{j = 1}^{n} a_j^i x^j
+$$
+Отметим следующее наблюдение: $f,h$ - линейные отображения $V \to W$, тогда определим:
+\begin{enumerate}[label ={(\arabic*)}]
+	\item $(f + h)(x) \coloneqq f(x) + h(x)$ - линейное отображение;
+	\item $(\lambda{\cdot}f)(x) \coloneqq \lambda{\cdot}f(x)$ - линейное отображение;
+\end{enumerate}
+Множество всех линейных отображений из $V$ в $W$ обозначим $L(V,W)$.
+
+\begin{lemma}
+	Сопоставление линейному отображению его матрицы задает изоморфизм: 
+	$$
+		L(V,W) \simeq \text{Mat}_{n \times m}(\MK)
+	$$
+\end{lemma}
+\begin{proof}
+	Выбираем базисы $e_1, \dotsc, e_n \in V$ и $g_1, \dotsc, g_m \in W \Rightarrow$ отображение $F \colon L(V,W) \to \text{Mat}_{n \times m}(\MK)$ определено следующим образом:
+	$$
+		F(f) = A_f = 	
+		\begin{pmatrix}
+			a_1^1 & \dotsc & a_n^1 \\
+			\vdots & \ddots & \vdots \\
+			a_1^m & \dotsc & a_n^m 
+		\end{pmatrix}
+	$$
+	Проверим, что оно является изоморфизмом:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item $F$ сохраняет структуру линейного пространства: $F(f_1 + f_2) = F(f_1) + F(f_2), \, F(\lambda{\cdot}f) = \lambda{\cdot}F(f)$;
+		\item $F$ это биекция:
+		\begin{enumerate}[label ={\arabic*)}]
+			\item \uline{Инъективность}: Пусть $F(f_1) = F(f_2), \, x \in V, \, x = x^1e_1 + \dotsc + x^n e_n$, тогда:
+			$$
+				\forall x \in V, \, f_1(x) = (a_1^1 x^1 + \dotsc + a_n^1 x^n) g_1 + \dotsc + (a_1^m x^1 + \dotsc + a_n^m x^n)g_m = f_2(x) \Rightarrow \forall x \in V, \, f_2 = f_1
+			$$
+			\item \uline{Сюръективность}: Пусть $
+			\begin{pmatrix}
+				a_1^1 & \dotsc & a_n^1 \\
+				\vdots & \ddots & \vdots \\
+				a_1^m & \dotsc & a_n^m 
+			\end{pmatrix}$ - произвольная $(n\times m)$ матрица, определим $f(x)$ следующим образом:
+			$$
+				f(x) = (a_1^1 x^1 + \dotsc + a_n^1 x^n) g_1 + \dotsc + (a_1^m x^1 + \dotsc + a_n^m x^n)g_m
+			$$
+			$f$ - линейное отображение, левая часть определена через правую (то есть через коэффициенты матрицы) $\Rightarrow$ сюръекция;
+		\end{enumerate}
+	\end{enumerate}
+\end{proof}
+\begin{corollary}
+	$\dim L(V,W) = n{\cdot}m$.
+\end{corollary}
+\subsection*{Матрицы перехода к новому базису}
+Пусть есть $2$ базиса $e_1, \dotsc, e_n, \wte{e}_1, \dotsc, \wte{e}_n \in V$ и 2 базиса $g_1, \dotsc, g_m , \wte{g}_1,\dotsc, \wte{g}_m \in W$. $C_v, C_w$ - матрицы перехода. 
+$x \in V, \, x = (x^1, \dotsc, x^n)^T, \, \wte{x} = (\wte{x}^1,\dotsc, \wte{x}^n)^T$ - координаты $x$ в базисах $e_1, \dotsc, e_n$ и $\wte{e}_1,\dotsc, \wte{e}_n$ соответственно.
+Тогда $x = C_V \wte{x}$, аналогично $y \in W, \, y = C_W \wte{y}$.
+
+Пусть $A$ - матрица отображения $f$ в базисах $e_1,\dotsc, e_n, g_1,\dotsc, g_m$. Пусть $\wte{A}$ - матрица отображения $f$ в базисах $\wte{e}_1,\dotsc, \wte{e}_n, \wte{g}_1,\dotsc, \wte{g}_m$. Тогда: 
+$$
+	y =f(x) \Leftrightarrow y = A{\cdot}x \wedge \wte{y} = \wte{A}{\cdot}\wte{x}  \Rightarrow C_W\wte{y} = A{\cdot}C_V\wte{x} \Rightarrow \wte{y} = C_W^{-1}AC_V {\cdot} \wte{x}
+$$
+где последнее справедливо поскольку матрицы перехода - обратимы. Матрица по линейному отображению определяется однозначно при фиксированном базисе $\Rightarrow \wte{A} = C_W^{-1}AC_V$ - общий случай.
+
+\subsection*{Образ и ядро линейных отображений}
+Пусть $f \colon V \to W$ - линейное отображение.
+\begin{defn}
+	\uwave{Ядром отображения} $f$ называется подмножество $V$: 
+	$$\Ker f = \{v \in V \mid f(v) = 0\} \subset V$$
+\end{defn}
+\begin{defn}
+	\uwave{Образом отображения} $f$ называется подмножество $W$: 
+	$$\Ima f = \{w \in W \mid \exists \, v \in V \colon f(v) = w \} \subset W$$
+\end{defn}
+\begin{lemma}
+	$\Ker f$ и $\Ima f$ это линейные подпространства.
+\end{lemma}
+\begin{proof}\hfill
+	\begin{enumerate}[label ={\arabic*)}]
+		\item $\Ker f = \{v \in V \mid f(v) = 0\}$:
+		\begin{enumerate}[label ={(\arabic*)}]
+			\item $\forall v_1, v_2 \in \Ker f, \, f(v_1 + v_2) = f(v_1) + f(v_2) = 0 + 0 = 0 \Rightarrow v_1 + v_2 \in \Ker f$;
+			\item $\forall \lambda \in \MK, \, \forall v \in \Ker f, \, f(\lambda {\cdot} v) = \lambda{\cdot}f(v) = \lambda{\cdot}0 = 0 \Rightarrow \lambda {\cdot} v \in \Ker f$;
+		\end{enumerate}
+		Таким образом $\Ker f$ - линейное подпространство $V$;
+		\item $\Ima f = \{w \in W \mid \exists \, v \in V \colon f(v) = w \}$:
+		\begin{enumerate}[label ={(\arabic*)}]
+			\item $\forall w_1, w_2 \in \Ima f, \, \exists \, v_1, v_2 \in V \colon f(v_1) = w_1, \, f(v_2) = w_2 \Rightarrow f(v_1 + v_2) = w_1 + w_2 \in \Ima f$;
+			\item $\forall \lambda \in \MK, \, \forall w \in \Ima f, \, \exists \, v \in V \colon f(v) = w \Rightarrow \lambda{\cdot}w = \lambda{\cdot}f(v) = f(\lambda {\cdot} v) \Rightarrow \lambda{\cdot} w \in \Ima f$;
+		\end{enumerate}
+		Таким образом $\Ima f$ - линейное подпространство $W$;
+	\end{enumerate}
+\end{proof}
+\begin{theorem}
+	$\dim{(\Ker{f})} + \dim{(\Ima{f})} = \dim{V}$
+\end{theorem}
+\begin{proof}
+	Пусть $e_1, \dotsc, e_r$ - базис в $\Ker{f} \Rightarrow \dim{(\Ker{f})} = r$, дополним этот набор до базиса $V$, следовательно получим $e_1, \dotsc, e_r, e_{r+1}, \dotsc, e_n$ - базис в $V \Rightarrow \dim{(V)} = n \Rightarrow$ нужно показать, что $\dim{(\Ima{f})} = n - r$.
+	$$
+		0 = f(e_1), \dotsc, 0 = f(e_r), w_1 = f(e_{r+1}), \dotsc, w_{n-r} = f(e_n)
+	$$
+	Проверим, что $w_1, \dotsc, w_{n-r}$ это базис $\Ima{f}$:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item \uwave{Линейная независимость}: 
+		$$
+			\lambda_1 w_1 + \dotsc + \lambda_{n-r} w_{n-r} = 0 \Leftrightarrow \lambda_1 f(e_{r+1}) + \dotsc + \lambda_{n-r}f(e_n) = 0 \Leftrightarrow f(\lambda_1 e_{r+1} + \dotsc + \lambda_{n-r} e_n) = 0 \Leftrightarrow
+		$$
+		$$
+			\Leftrightarrow \lambda_1 e_{n-r} + \dotsc + \lambda_{n-r} e_n \in \Ker{f} \Rightarrow \lambda_1 e_{n-r} + \dotsc + \lambda_{n-r} e_n = \alpha_1 e_1 + \dotsc + \alpha_r e_r \Rightarrow
+		$$
+		$$
+			\Rightarrow (-\alpha_1)e_1 + \dotsc + (-\alpha_r) e_r + \lambda_1 e_{n-r} + \dotsc + \lambda_{n-r}e_n = 0 \Leftrightarrow \alpha_1 = \dotsc = \alpha_r = \lambda_1 = \dotsc = \lambda_{n-r} = 0
+		$$
+		поскольку $e_1, \dotsc, e_n$ это базис в $V \Rightarrow \lambda_1 = \dotsc = \lambda_{n-r} = 0 \Rightarrow e_{r+1}, \dotsc, e_n$ - линейно независимы;
+		\item \uwave{Максимальность}: 
+		$$
+			w \in \Ima{f} \Rightarrow \exists \, v \in V \colon f(v) = w, \, v = v^1e_1 + \dotsc + v^r e_r + v^{r+1}e_{r+1} + \dotsc + v^n e_n \Rightarrow
+		$$
+		$$
+			\Rightarrow f(v) = 0 + \dotsc + 0 + v^{r+1} f(e_{r+1}) + \dotsc + v^n f(e_n) = v^{r+1} w_1 + \dotsc + v^n w_{n-r} = w, \, \forall w \in \Ima{f}
+		$$
+	\end{enumerate}
+	Таким образом, $w_1, \dotsc, w_{n-r}$ это базис $\Rightarrow \dim{(\Ker{f})} + \dim{(\Ima f)} = r + n -r = n = \dim{(V)}$.
+\end{proof}
+\subsection*{Композиция}
+
+\begin{defn}
+	Пусть $f \in L(V,W), \, h \in L(W,U), \, V \xrightarrow[]{f}W \xrightarrow[]{h}U$. Определим композицию следующим образом: 
+	$$
+		(h \circ f)(v)\coloneqq h\left(f(v)\right), \, h \circ f \in L(V,U)
+	$$	
+\end{defn}
+\begin{exrc}
+	Какая матрица будет у $h \circ f$: $A_h {\cdot} A_f$ или $A_f {\cdot} A_h$?
+\end{exrc}
+\newpage
+\section*{Евклидовы и Эримтовы пространства}
+Пусть $V$ - линейное пространство над $\MR$.
+\begin{defn}
+	\uwave{Скалярным произведением} назовем отображение $V\times V \to \MR$, если выполнено:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item $\forall a,b,c \in V, \, \forall \lambda \in \MR, \, (a,b + \lambda c) = (a,b) + \lambda{\cdot}(a,c)$ (линейность по второму аргументу);
+		\item $\forall a,b \in V, \, (a,b) = (b,a)$ (симметричность);
+		\item $\forall a \in V, \, (a,a) \geq 0$ и если $(a,a) = 0$, то $a = 0$ (положительная определенность);
+	\end{enumerate}
+\end{defn}
+\begin{rem}
+	Из свойств определения $(1)$ и $(2)$ получим линейность по первому аргументу.
+\end{rem}
+
+\begin{defn}
+	Линейное пространство, на котором задано скалярное произведение называется \uwave{Евклидовым}.
+\end{defn}
+Пусть $V$ - линейное пространство над $\MC$.
+\begin{defn}
+	Отображение $V \times V \to \MC$ называется \uwave{скалярным произведением}, если выполнено:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item $\forall a,b,c \in V, \, \forall \lambda \in \MC, \, (a,b + \lambda c) = (a,b) + \lambda{\cdot}(a,c)$;
+		\item $\forall a,b \in V, \, (a,b) = \overline{(b,a)}$;
+		\item $\forall a \in V, \, (a,a) \geq 0, \, (a,a) \in \MR$ и если $(a,a) = 0$, то $a = 0$;
+	\end{enumerate}
+\end{defn}
+\begin{rem}
+	Здесь уже из $(1)$ и $(2)$ не следует линейность по $1$-му аргументу. Свойство получается немного другим:
+	$$
+		(b + \lambda c,a) = \overline{(a, b+ \lambda c)} = \overline{(a,b)} + \overline{\lambda}{\cdot}\overline{(a,c)} = (b,a) + \overline{\lambda}{\cdot}(c,a)
+	$$
+\end{rem}
+\begin{defn}
+	Линейное пространство над $\MC$ на котором задано скалярное произведение называется \uwave{Эрмитовым}.
+\end{defn}
+
+\section*{Примеры скалярных пространств}
+$1)$ $V = \MR_{[x]}$ - пространство многочленов от $x$; $f,g \in \MR_{[x]}, \, (f,g) = \ddint{a}{b}f(x)g(x)dx$. 
+\begin{proof}
+	Проверим свойства скалярного произведения над $\MR$:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item Очевидно по линейности интеграла и подинтегральной функции; 
+		\item Очевидно;
+		\item $g = f \Rightarrow \ddint{a}{b}(f(x))^2dx \geq 0$;
+	\end{enumerate}
+\end{proof}
+
+$2)$ $V = \Mat_{n \times m}(\MR)$; $A,\, B \in \Mat_{n \times m}(\MR), \, (A,B) = \tr(A^TB)$.
+\begin{proof}
+	Проверим свойства скалярного произведения над $\MR$:
+	\begin{enumerate}[label ={(\arabic*)}]
+		\item $\tr(A^T(B + \lambda C)) = \tr(A^TB) + \lambda\tr(A^TC)$;
+		\item $\tr(A^TB) = \tr((A^TB)^T) = \tr(B^TA)$;
+		\item $\tr(A^TA) \geq 0$?
+		$$
+			A = 
+			\begin{pmatrix}
+				a_1^1 & \dotsc & a_n^1\\
+				\vdots & \ddots & \vdots \\
+				a_1^m & \dotsc & a_n^m
+			\end{pmatrix}, \, 
+			A^T = 
+			\begin{pmatrix}
+				a_1^1 & \dotsc & a_1^m\\
+				\vdots & \ddots & \vdots \\
+				a_n^1 & \dotsc & a_n^m
+			\end{pmatrix} 
+			A^TA = 
+			\begin{pmatrix}
+				(a_1^1)^2 + \dotsc + (a_1^m)^2 &  \dotsc & * \\
+				\vdots & \ddots & \vdots \\
+				* & \dotsc & (a_n^1)^2 + \dotsc + (a_n^m)^2 
+			\end{pmatrix} \Rightarrow
+		$$
+		$$
+			\Rightarrow \tr{(A^TA)} = (a_1^1)^2 + \dotsc + (a_1^m)^2 + \dotsc + (a_n^1)^2 + \dotsc + (a_n^m)^2 \geq 0
+		$$
+		В этой сумме все квадраты $\Rightarrow$ все элементы $\geq 0$, а также здесь все элементы матрицы $A$. Таким образом, $\tr{(A^TA)} = 0 \Leftrightarrow \forall i,j, \, a_i^j = 0 \Leftrightarrow A =0$;
+	\end{enumerate}
+\end{proof} 
+
+\end{document}
